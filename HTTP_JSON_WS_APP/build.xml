@@ -37,7 +37,7 @@
 	-->
    <target name="mqsiapplybaroverride" depends="mqsicreatebar">
       <echo message="Overriding Broker Archive properties: ${bar.name} " />
-      <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.exe" spawn="false">
+      <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
          <arg value="-b" />
 		 <arg value="${bar.name}" />
          <arg value="-p" />
