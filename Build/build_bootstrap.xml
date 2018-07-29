@@ -1,0 +1,30 @@
+<project name="IIB-CI-BOOTSTRAP" default="bootstrap" basedir="..">
+  <description>IIB Continuous Integration Demo (bootstrap script)</description>
+
+  <target name="bootstrap_init">
+    <tstamp />
+    <property environment="env" />
+    <property name="path.build" value="Build" />
+    <property name="build.main" value="${path.build}/build_main.xml" />
+    <property file="${path.build}/build.properties" />
+    <!--<exec executable="id" />-->
+  </target>
+
+  <target name="bootstrap" depends="bootstrap_init">
+    
+    <!-- call Ant with build_main.xml as another user in a new shell -->
+    <!-- https://ant.apache.org/manual/running.html -->
+    <fileset dir="${ant.library.dir}" id="ant.jar.files">
+      <include name="**/*.jar"/>
+    </fileset>
+    <pathconvert pathsep=":" property="jars.ant" refid="ant.jar.files"/>
+    <property name="ext.dirs" value="${path.iib}/common/jdk/lib:${path.iib}/common/jdk/jre/lib/ext" />
+    <property name="args.jvm" value="-cp $CLASSPATH:$MQSI_JREPATH/${jars.ant} -Djava.ext.dirs=${ext.dirs} -Dant.home=${ant.home} ${ant.main.class}" />
+    <property name="args.ant" value="-f ${build.main}" />
+    <property name="init.env" value=". ${iib.mqsiprofile}" />
+
+    <exec executable="cmd">
+      <arg value="${init.env}; $MQSI_JREPATH/bin/java ${args.jvm} ${args.ant}" />
+    </exec>
+  </target>
+</project>

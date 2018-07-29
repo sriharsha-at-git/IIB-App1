@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="IIB-CI-MAIN" default="dev" basedir="..">
+   <description>IIB Continuous Integration Demo (main script)</description>
+   <target name="init">
+      <tstamp />
+      <property environment="env" />
+      <property name="path.build" value="Build" />
+      <property file="${path.build}/build.properties" />
+      <property name="iib.toolkit.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\tools" />
+      <property name="workspaces.dir" value="C:\Progra~2\Jenkins\IIB-App1-Ant" />
+      <property name="iib.runtime.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
+      <property name="iib.path" value="C:\Program Files\IBM\IIB\10.0.0.12" />
+      <property name="iib.mqsiprofile" value="${path.iib}\server\bin\mqsiprofile" />
+      <property name="appln.name" value="HTTP_JSON_WS_APP" />
+      <property name="bar.name" value="${workspaces.dir}\${appln.name}\${appln.name}.bar" />
+      <property name="properties.file" value="${workspaces.dir}\${appln.name}\IIB-App1.properties" />
+      <property name="integration.node" value="D.BRWIN.01" />
+      <property name="integration.server" value="4415" />
+      <property name="integration.host" value="172.31.0.159" />
+      <property name="integration.port" value="WebServices" />
+   </target>
+   <target name="dev" depends="init">
+      <!--<exec executable="id" />-->
+      <exec executable="mqsiservice">
+         <arg value="-v" />
+      </exec>
+      <exec executable="mqsilist" />
+      <exec executable="mqsilist">
+         <arg value="${iib.node}" />
+      </exec>
+      <!-- build workspace and create BAR file -->
+      <echo message="Building Broker Archive file: ${bar.name} " />
+      <exec executable="${iib.toolkit.dir}\mqsicreatebar" spawn="false">
+         <arg value="-data" />
+         <arg value="${workspaces.dir}" />
+         <arg value="-b" />
+         <arg value="${bar.name}" />
+         <arg value="-a" />
+         <arg value="${appln.name}" />
+      </exec>
+      <echo message="Completed building Broker Archive file - ${bar.name} " />
+      <!-- Alternative: package BAR file without building workspace
+      <exec executable="mqsipackagebar">
+        <arg value="-a" />
+        <arg value="${bar.name}" />
+        <arg value="-k" />
+        <arg value="${appln.name}" />
+        <arg value="${library.name}" />
+        <arg value="-y" />
+        <arg value="${jlibrary.name}" />
+      </exec>
+    -->
+      <echo message="Overriding Broker Archive properties: ${bar.name} " />
+      <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
+         <arg value="-b" />
+         <arg value="${bar.name}" />
+         <arg value="-p" />
+         <arg value="${properties.file}" />
+         <arg value="-k" />
+         <arg value="${appln.name}" />
+      </exec>
+      <echo message="Completed verriding Broker Archive properties: ${bar.name} " />
+      <echo message="Deploying Broker Archive file: ${bar.name} " />
+      <exec executable="${iib.runtime.dir}\mqsideploy.exe" spawn="false">
+         <arg value="${integration.node}" />
+         <arg value="-i" />
+         <arg value="${integration.host}" />
+         <arg value="-p" />
+         <arg value="${integration.port}" />
+         <arg value="-e" />
+         <arg value="${integration.server}" />
+         <arg value="-a" />
+         <arg value="${bar.name}" />
+         <!--<arg value="-m" /> -->
+         <!-- Empties int server before deploying-->
+      </exec>
+      <echo message="Completed deploying Broker Archive file - ${bar.name} " />
+      <exec executable="mqsireportproperties">
+         <arg value="${integration.node}" />
+         <arg value="-e" />
+         <arg value="${integration.server}" />
+         <arg value="-o" />
+         <arg value="HTTPConnector" />
+         <arg value="-r" />
+      </exec>
+      <!--
+	<java classname="demo.iib.ci.TestClient">
+      <arg value="${path.build}/build.properties" />
+      <classpath>
+        <pathelement location="TestClient/bin" />
+      </classpath>
+    </java>
+	-->
+   </target>
+</project>
