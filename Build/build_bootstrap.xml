@@ -5,26 +5,27 @@
     <tstamp />
     <property environment="env" />
     <property name="path.build" value="Build" />
-    <property name="build.main" value="${path.build}/build_main.xml" />
-    <property file="${path.build}/build.properties" />
-    <!--<exec executable="id" />-->
+    <property name="build.main" value="${path.build}\build_main.xml" />
+	<property name="iib.path" value="C:\Progra~1\IBM\IIB\10.0.0.12" />
+	<property name="iib.runtime.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
+	<property name="iib.mqsiprofile" value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin\mqsiprofile.cmd" />
+	<property name="ant.launcher.class" value="org.apache.tools.ant.launch.Launcher" />
+	<property name="ant.main.class" value="org.apache.tools.ant.Main" />
+	
   </target>
 
   <target name="bootstrap" depends="bootstrap_init">
     
-    <!-- call Ant with build_main.xml as another user in a new shell -->
-    <!-- https://ant.apache.org/manual/running.html -->
-    <fileset dir="${ant.library.dir}" id="ant.jar.files">
-      <include name="**/*.jar"/>
-    </fileset>
-    <pathconvert pathsep=":" property="jars.ant" refid="ant.jar.files"/>
-    <property name="ext.dirs" value="${path.iib}/common/jdk/lib:${path.iib}/common/jdk/jre/lib/ext" />
-    <property name="args.jvm" value="-cp $CLASSPATH:$MQSI_JREPATH/${jars.ant} -Djava.ext.dirs=${ext.dirs} -Dant.home=${ant.home} ${ant.main.class}" />
-    <property name="args.ant" value="-f ${build.main}" />
-    <property name="init.env" value=". ${iib.mqsiprofile}" />
+    <property name="init.env" value="call ${iib.mqsiprofile}" />
 
-    <exec executable="cmd">
-      <arg value="${init.env}; $MQSI_JREPATH/bin/java ${args.jvm} ${args.ant}" />
-    </exec>
+	<exec dir="${iib.runtime.dir}"  executable="cmd" failonerror="true">
+		<arg value="/c"/>
+		<arg value="call ${iib.mqsiprofile} &amp; ${ant.home}\bin\ant" />
+		<arg value="-v" />
+        <arg value="-f" />
+		<arg file="${build.main}" />
+	</exec>	 
+		 
+    
   </target>
 </project>
