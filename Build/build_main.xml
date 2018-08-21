@@ -5,15 +5,24 @@
       <tstamp />
       <property environment="env" />
       <property name="path.build" value="Build" />
-	  <property name="path.bars" value="Artifacts" />
+	  <property name="path.bars" value="Build\Bars" />
       <property name="iib.toolkit.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\tools" />
       <property name="workspaces.dir" value="C:\Progra~2\Jenkins\IIB-App3-Ant-Promotion" />
       <property name="iib.runtime.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
       <property name="iib.path" value="C:\Progra~1\IBM\IIB\10.0.0.12" />
       <property name="iib.mqsiprofile" value="${iib.path}\server\bin\mqsiprofile.cmd" />
       <property name="appln.name" value="HTTP_JSON_WS_APP" />
-      <property name="bar.name" value="${workspaces.dir}\${path.bars}\${appln.name}.bar" />
-      <property name="properties.file" value="${workspaces.dir}\${appln.name}\IIB-App1.properties" />
+	  <property name="bar.local" value="${workspaces.dir}\${path.bars}\LOCAL-${appln.name}.bar" />
+      <property name="bar.dev" value="${workspaces.dir}\${path.bars}\DEV-${appln.name}.bar" />
+	  <property name="bar.test" value="${workspaces.dir}\${path.bars}\TEST-${appln.name}.bar" />
+      <property name="bar.acpt" value="${workspaces.dir}\${path.bars}\ACPT-${appln.name}.bar" />
+      <property name="bar.prod" value="${workspaces.dir}\${path.bars}\PROD-${appln.name}.bar" />
+      
+      <property name="properties.dev" value="${workspaces.dir}\${appln.name}\DEV.properties" />
+	  <property name="properties.test" value="${workspaces.dir}\${appln.name}\TEST.properties" />
+      <property name="properties.acpt" value="${workspaces.dir}\${appln.name}\ACPT.properties" />
+      <property name="properties.prod" value="${workspaces.dir}\${appln.name}\PROD.properties" />
+      
       <property name="integration.node" value="D.BRWIN.01" />
       <property name="integration.server" value="WebServices" />
       <property name="integration.host" value="172.31.0.159" />
@@ -30,17 +39,17 @@
       </exec>
 	  <echo message="." />
       <!-- build workspace and create BAR file -->
-      <echo message="Building Broker Archive file: ${bar.name} " />
+      <echo message="Building Broker Archive file: LOCAL-${bar.name} " />
       <exec executable="${iib.toolkit.dir}\mqsicreatebar" spawn="false">
          <arg value="-data" />
          <arg value="${workspaces.dir}" />
          <arg value="-b" />
-         <arg value="${bar.name}" />
+         <arg value="${bar.local}" />
          <arg value="-a" />
          <arg value="${appln.name}" />
       </exec>
 	  <echo message="." />
-      <echo message="Completed building Broker Archive file - ${bar.name} " />
+      <echo message="Completed building Broker Archive file - LOCAL-${bar.name} " />
       <!-- Alternative: package BAR file without building workspace
       <exec executable="mqsipackagebar">
         <arg value="-a" />
@@ -52,17 +61,66 @@
         <arg value="${jlibrary.name}" />
       </exec>
     -->
-      <echo message="Overriding Broker Archive properties: ${bar.name} " />
+      
+	  
+	  <copy file="${bar.local}" tofile="${bar.dev}"/>
+	  <copy file="${bar.local}" tofile="${bar.test}"/>
+	  <copy file="${bar.local}" tofile="${bar.acpt}"/>
+	  <copy file="${bar.local}" tofile="${bar.prod}"/>
+	  
+	  <!--<copy todir="${path.bars}"><fileset file="./target/my.war"/><globmapper from="my.war" to="my2.war"/></copy>
+	  <copy todir="some_dir"><fileset file="./target/my.war"/><globmapper from="my.war" to="my2.war"/></copy>
+	  <copy todir="some_dir"><fileset file="./target/my.war"/><globmapper from="my.war" to="my2.war"/></copy>
+	  <copy todir="some_dir"><fileset file="./target/my.war"/><globmapper from="my.war" to="my2.war"/></copy>-->
+	  
+	  <echo message="Overriding Broker Archive properties: DEV-${bar.name} " />
       <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
          <arg value="-b" />
-         <arg value="${bar.name}" />
+         <arg value="${bar.dev}" />
          <arg value="-p" />
-         <arg value="${properties.file}" />
+         <arg value="${properties.dev}" />
          <arg value="-k" />
          <arg value="${appln.name}" />
       </exec>
-      <echo message="Completed verriding Broker Archive properties: ${bar.name} " />
+      <echo message="Completed verriding Broker Archive properties: DEV-${bar.name} " />
 	  <echo message="." />
+	  
+	  <echo message="Overriding Broker Archive properties: TEST-${bar.name} " />
+      <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
+         <arg value="-b" />
+         <arg value="${bar.test}" />
+         <arg value="-p" />
+         <arg value="${properties.test}" />
+         <arg value="-k" />
+         <arg value="${appln.name}" />
+      </exec>
+      <echo message="Completed verriding Broker Archive properties: TEST-${bar.name} " />
+	  <echo message="." />
+	  
+	  <echo message="Overriding Broker Archive properties: ACPT-${bar.name} " />
+      <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
+         <arg value="-b" />
+         <arg value="${bar.acpt}" />
+         <arg value="-p" />
+         <arg value="${properties.acpt}" />
+         <arg value="-k" />
+         <arg value="${appln.name}" />
+      </exec>
+      <echo message="Completed verriding Broker Archive properties: ACPT-${bar.name} " />
+	  <echo message="." />
+	  
+	  <echo message="Overriding Broker Archive properties: PROD-${bar.name} " />
+      <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
+         <arg value="-b" />
+         <arg value="${bar.prod}" />
+         <arg value="-p" />
+         <arg value="${properties.prod}" />
+         <arg value="-k" />
+         <arg value="${appln.name}" />
+      </exec>
+      <echo message="Completed verriding Broker Archive properties: PROD-${bar.name} " />
+	  <echo message="." />
+	  
       <!--
 	  <echo message="Deploying Broker Archive file: ${bar.name} " />
       <exec executable="${iib.runtime.dir}\mqsideploy.exe" spawn="false">
