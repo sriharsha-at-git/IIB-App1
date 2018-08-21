@@ -2,111 +2,46 @@
 <project name="project" default="run">
    
    <target name="run" description="Intialize environment">
+     <tstamp />
+      <property environment="env" />
+      <property name="path.build" value="Build" />
+	  <property name="path.bars" value="Build\Bars" />
+	  <property name="path.properties" value="Build\Override" />
       <property name="iib.toolkit.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\tools" />
-      <property name="workspaces.dir" value="C:\Progra~2\Jenkins\IIB-App1-Ant" />
+      <property name="workspaces.dir" value="C:\Progra~2\Jenkins\IIB-App3-Ant-Promotion" />
       <property name="iib.runtime.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
-	  <property name="iib.path" value="C:\Progra~1\IBM\IIB\10.0.0.12" />
-	  <property name="iib.mqsiprofile" value="${iib.path}\server\bin\mqsiprofile.cmd" />
+      <property name="iib.path" value="C:\Progra~1\IBM\IIB\10.0.0.12" />
+      <property name="iib.mqsiprofile" value="${iib.path}\server\bin\mqsiprofile.cmd" />
       <property name="appln.name" value="HTTP_JSON_WS_APP" />
-      <property name="bar.name" value="${workspaces.dir}\${appln.name}\${appln.name}.bar" />
-	  <property name="properties.file" value="${workspaces.dir}\${appln.name}\IIB-App1.properties" />
+	  <property name="bar.local" value="${workspaces.dir}\${path.bars}\LOCAL-${appln.name}.bar" />
+      <property name="bar.dev" value="${workspaces.dir}\${path.bars}\DEV-${appln.name}.bar" />
+	  <property name="bar.test" value="${workspaces.dir}\${path.bars}\TEST-${appln.name}.bar" />
+      <property name="bar.acpt" value="${workspaces.dir}\${path.bars}\ACPT-${appln.name}.bar" />
+      <property name="bar.prod" value="${workspaces.dir}\${path.bars}\PROD-${appln.name}.bar" />
+      
+      <property name="properties.dev" value="${workspaces.dir}\${path.properties}\DEV.properties" />
+	  <property name="properties.test" value="${workspaces.dir}\${path.properties}\TEST.properties" />
+      <property name="properties.acpt" value="${workspaces.dir}\${path.properties}\ACPT.properties" />
+      <property name="properties.prod" value="${workspaces.dir}\${path.properties}\PROD.properties" />
+      
+      <property name="integration.node" value="D.BRWIN.01" />
+      <property name="integration.server" value="WebServices" />
+      <property name="integration.host" value="172.31.0.159" />
+      <property name="integration.port" value="4415" />
 	  
-	  <property name="integration.node" value="D.BRWIN.01" />
-	  <property name="integration.server" value="WebServices" />
-	  <property name="integration.host" value="172.31.0.159" />
-	  <property name="integration.port" value="4415" />
-	  
-	  <property name="ant.main.class" value="org.apache.tools.ant.Main" />
-	  <property name="ant.launcher.class" value="org.apache.tools.ant.launch.Launcher" />
-	  
-	  
-	  <antcall target="mqsicreatebar" />
-	  <antcall target="mqsiapplybaroverride" />
 	  <antcall target="mqsideploybar" />
    </target>
    
-   
-   
-	<!--
-		Target to build the broker archive using mqsicreatebar
-	-->
-   <target name="mqsicreatebar">
-   
-	  <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
-		 <arg value="/c"/>
-		 <arg value="call ${iib.mqsiprofile} &amp; mqsiservice" />
-         <arg value="-v" />
-      </exec>
-	  
-	  <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
-		 <arg value="/c"/>
-		 <arg value="call ${iib.mqsiprofile} &amp; mqsilist" />
-      </exec>
-      <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
-		 <arg value="/c"/>
-		 <arg value="call ${iib.mqsiprofile} &amp; mqsilist" />
-		 <arg value="${integration.node}" />
-      </exec>
-      
-	  <echo message="." />
-   
-      <echo message="Building Broker Archive file: ${bar.name} " />
-      <exec executable="${iib.toolkit.dir}\mqsicreatebar.exe" spawn="false">
-         <arg value="-data" />
-         <arg value="${workspaces.dir}" />
-         <arg value="-b" />
-         <arg value="${bar.name}" />
-         <arg value="-a" />
-         <arg value="${appln.name}" />
-		 <arg value="-trace" />
-      </exec>
-      <echo message="Completed building Broker Archive file - ${bar.name} " />
-	  <!-- Alternative: package BAR file without building workspace
-      <exec executable="mqsipackagebar">
-        <arg value="-a" />
-        <arg value="${bar.name}" />
-        <arg value="-k" />
-        <arg value="${appln.name}" />
-        <arg value="${library.name}" />
-        <arg value="-y" />
-        <arg value="${jlibrary.name}" />
-      </exec>
-    -->
-   </target>
-   
-   <!--
-		Target to override the broker archive properties using mqsiapplybaroverride
-	-->
-   <target name="mqsiapplybaroverride">
-	  
-		<echo message="Overriding Broker Archive properties: ${bar.name} " />
-		<exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
-			<arg value="/c"/>
-			<arg value="call ${iib.mqsiprofile} &amp; mqsiapplybaroverride.bat" />
-			<arg value="-b" />
-			 <arg value="${bar.name}" />
-			 <arg value="-p" />
-			 <arg value="${properties.file}" />
-			 <arg value="-k" />
-			 <arg value="${appln.name}" />
-		</exec>
-	  
-	  <!--<exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
-         <arg value="-b" />
-		 <arg value="${bar.name}" />
-         <arg value="-p" />
-         <arg value="${properties.file}" />
-         <arg value="-k" />
-         <arg value="${appln.name}" />
-      </exec>-->
-      <echo message="Completed overriding Broker Archive properties: ${bar.name} " />
-   </target>
-   
+  
 	<!--
 		Target to deploy the broker archive using mqsideploybar
 	-->
    <target name="mqsideploybar">
 	  
+	   <echo message="${PROMOTED_URL} " />
+	   <echo message="${PROMOTED_BUILD} " />
+	   <echo message="${PROMOTED_JOB} " />
+	   <echo message="." />
       <echo message="Deploying Broker Archive file: ${bar.name} " />
       <!--<exec executable="${iib.runtime.dir}\mqsideploy.exe" spawn="false">-->
 	  <!-- mqsideploy D.BRWIN.01 -i 172.31.0.159 -p 4415  -e WebServices -a C:\Progra~2\Jenkins\IIB-App1-Ant\HTTP_JSON_WS_APP\HTTP_JSON_WS_APP.bar -w 600 -->
