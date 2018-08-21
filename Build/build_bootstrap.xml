@@ -4,13 +4,13 @@
   <target name="bootstrap_init">
     <tstamp />
     <property environment="env" />
-    <property name="path.build" value="Build" />
-    <property name="build.main" value="${path.build}\build_main.xml" />
-	<property name="iib.path" value="C:\Progra~1\IBM\IIB\10.0.0.12" />
-	<property name="iib.runtime.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
-	<property name="iib.mqsiprofile" value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin\mqsiprofile.cmd" />
+    <property name="path.build" 		value="Build" />
+    <property name="build.main" 		value="${path.build}\build_main.xml" />
+	<property name="iib.path" 			value="C:\Progra~1\IBM\IIB\10.0.0.12" />
+	<property name="iib.runtime.dir" 	value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
+	<property name="iib.mqsiprofile" 	value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin\mqsiprofile.cmd" />
 	<property name="ant.launcher.class" value="org.apache.tools.ant.launch.Launcher" />
-	<property name="ant.main.class" value="org.apache.tools.ant.Main" />
+	<property name="ant.main.class" 	value="org.apache.tools.ant.Main" />
 	
   </target>
 

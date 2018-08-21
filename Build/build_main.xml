@@ -4,31 +4,31 @@
    <target name="init">
       <tstamp />
       <property environment="env" />
-      <property name="path.build" value="Build" />
-	  <property name="path.bars" value="Build\Bars" />
-	  <property name="path.properties" value="Build\Override" />
-      <property name="iib.toolkit.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\tools" />
-      <!--<property name="workspaces.dir" value="C:\Progra~2\Jenkins\IIB-App3-Ant-Promotion" />-->
-	  <property name="workspaces.dir" value="${JENKINS_HOME}\IIB-App3-Ant-Promotion" />
-      <property name="iib.runtime.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
-      <property name="iib.path" value="C:\Progra~1\IBM\IIB\10.0.0.12" />
-      <property name="iib.mqsiprofile" value="${iib.path}\server\bin\mqsiprofile.cmd" />
-      <property name="appln.name" value="HTTP_JSON_WS_APP" />
-	  <property name="bar.local" value="${workspaces.dir}\${path.bars}\LOCAL-${appln.name}.bar" />
-      <property name="bar.dev" value="${workspaces.dir}\${path.bars}\DEV-${appln.name}.bar" />
-	  <property name="bar.test" value="${workspaces.dir}\${path.bars}\TEST-${appln.name}.bar" />
-      <property name="bar.acpt" value="${workspaces.dir}\${path.bars}\ACPT-${appln.name}.bar" />
-      <property name="bar.prod" value="${workspaces.dir}\${path.bars}\PROD-${appln.name}.bar" />
+      <property name="path.build" 		value="Build" />
+	  <property name="path.bars" 		value="Build\Bars" />
+	  <property name="path.properties" 	value="Build\Override" />
+      <property name="iib.toolkit.dir" 	value="C:\Progra~1\IBM\IIB\10.0.0.12\tools" />
+      <!--<property name="workspaces.dir" value="C:\Progra~2\Jenkins\IIB-App3-Ant-Promotion" />
+	  <property name="workspaces.dir" 	value="${JENKINS_HOME}\IIB-App3-Ant-Promotion" />-->
+      <property name="iib.runtime.dir" 	value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
+      <property name="iib.path" 		value="C:\Progra~1\IBM\IIB\10.0.0.12" />
+      <property name="iib.mqsiprofile" 	value="${iib.path}\server\bin\mqsiprofile.cmd" />
+      <property name="appln.name" 		value="HTTP_JSON_WS_APP" />
+	  <property name="bar.local" 		value="${path.bars}\LOCAL-${appln.name}.bar" />
+      <property name="bar.dev" 			value="${path.bars}\DEV-${appln.name}.bar" />
+	  <property name="bar.test" 		value="${path.bars}\TEST-${appln.name}.bar" />
+      <property name="bar.acpt" 		value="${path.bars}\ACPT-${appln.name}.bar" />
+      <property name="bar.prod" 		value="${path.bars}\PROD-${appln.name}.bar" />
       
-      <property name="properties.dev" value="${workspaces.dir}\${path.properties}\DEV.properties" />
-	  <property name="properties.test" value="${workspaces.dir}\${path.properties}\TEST.properties" />
-      <property name="properties.acpt" value="${workspaces.dir}\${path.properties}\ACPT.properties" />
-      <property name="properties.prod" value="${workspaces.dir}\${path.properties}\PROD.properties" />
+      <property name="properties.dev" 	value="${path.properties}\DEV.properties" />
+	  <property name="properties.test" 	value="${path.properties}\TEST.properties" />
+      <property name="properties.acpt" 	value="${path.properties}\ACPT.properties" />
+      <property name="properties.prod" 	value="${path.properties}\PROD.properties" />
       
-      <property name="integration.node" value="D.BRWIN.01" />
-      <property name="integration.server" value="WebServices" />
-      <property name="integration.host" value="172.31.0.159" />
-      <property name="integration.port" value="4415" />
+      <property name="dev.node" 	value="D.BRWIN.01" />
+      <property name="dev.server" 	value="WebServices" />
+      <property name="dev.host" 	value="172.31.0.159" />
+      <property name="dev.port" 	value="4415" />
    </target>
    <target name="dev" depends="init">
       <!--<exec executable="id" />-->
@@ -37,7 +37,7 @@
       </exec>
       <exec executable="mqsilist" />
       <exec executable="mqsilist">
-         <arg value="${integration.node}" />
+         <arg value="${dev.node}" />
       </exec>
 	  <echo message="." />
       <!-- build workspace and create BAR file -->
@@ -126,22 +126,22 @@
       <!--
 	  <echo message="Deploying Broker Archive file: ${bar.name} " />
       <exec executable="${iib.runtime.dir}\mqsideploy.exe" spawn="false">
-         <arg value="${integration.node}" />
+         <arg value="${dev.node}" />
          <arg value="-i" />
-         <arg value="${integration.host}" />
+         <arg value="${dev.host}" />
          <arg value="-p" />
-         <arg value="${integration.port}" />
+         <arg value="${dev.port}" />
          <arg value="-e" />
-         <arg value="${integration.server}" />
+         <arg value="${dev.server}" />
          <arg value="-a" />
          <arg value="${bar.name}" />
       </exec>
       <echo message="Completed deploying Broker Archive file - ${bar.name} " />
 	  <echo message="." />
       <exec executable="mqsireportproperties">
-         <arg value="${integration.node}" />
+         <arg value="${dev.node}" />
          <arg value="-e" />
-         <arg value="${integration.server}" />
+         <arg value="${dev.server}" />
          <arg value="-o" />
          <arg value="HTTPConnector" />
          <arg value="-r" />

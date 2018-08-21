@@ -25,10 +25,10 @@
       <property name="properties.acpt" value="${workspaces.dir}\${path.properties}\ACPT.properties" />
       <property name="properties.prod" value="${workspaces.dir}\${path.properties}\PROD.properties" />
       
-      <property name="integration.node" value="D.BRWIN.01" />
-      <property name="integration.server" value="WebServices" />
-      <property name="integration.host" value="172.31.0.159" />
-      <property name="integration.port" value="4415" />
+      <property name="dev.node" value="D.BRWIN.01" />
+      <property name="dev.server" value="WebServices" />
+      <property name="dev.host" value="172.31.0.159" />
+      <property name="dev.port" value="4415" />
 	  
 	  <antcall target="mqsideploybar" />
    </target>
@@ -49,13 +49,13 @@
 	  <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
 		 <arg value="/c"/>
 		 <arg value="mqsideployscript.bat" />
-         <arg value="${integration.node}" />
+         <arg value="${dev.node}" />
 		 <arg value="-i" />
-         <arg value="${integration.host}" />
+         <arg value="${dev.host}" />
 		 <arg value="-p" />
-         <arg value="${integration.port}" />
+         <arg value="${dev.port}" />
          <arg value="-e" />
-         <arg value="${integration.server}" />
+         <arg value="${dev.server}" />
          <arg value="-a" />
          <arg value="${bar.dev}" />
 		 <arg value="-w" />
@@ -66,9 +66,9 @@
 	  <exec dir="${iib.runtime.dir}"  executable="cmd" failonerror="true">
 		 <arg value="/c"/>
 		<arg value="call ${iib.mqsiprofile} &amp; mqsireportproperties" />
-         <arg value="${integration.node}" />
+         <arg value="${dev.node}" />
          <arg value="-e" />
-         <arg value="${integration.server}" />
+         <arg value="${dev.server}" />
          <arg value="-o" />
          <arg value="HTTPConnector" />
          <arg value="-r" />
