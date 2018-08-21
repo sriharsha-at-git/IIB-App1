@@ -38,11 +38,11 @@
 	-->
    <target name="mqsideploybar">
 	  
-	   <echo message="${PROMOTED_URL} " />
-	   <echo message="${PROMOTED_BUILD} " />
-	   <echo message="${PROMOTED_JOB} " />
+	   <echo message="$PROMOTED_URL " />
+	   <echo message="$PROMOTED_BUILD " />
+	   <echo message="$PROMOTED_JOB_NAME " />
 	   <echo message="." />
-      <echo message="Deploying Broker Archive file: ${bar.name} " />
+      <echo message="Deploying Broker Archive file: DEV-${bar.dev} " />
       <!--<exec executable="${iib.runtime.dir}\mqsideploy.exe" spawn="false">-->
 	  <!-- mqsideploy D.BRWIN.01 -i 172.31.0.159 -p 4415  -e WebServices -a C:\Progra~2\Jenkins\IIB-App1-Ant\HTTP_JSON_WS_APP\HTTP_JSON_WS_APP.bar -w 600 -->
 	  <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
@@ -56,11 +56,11 @@
          <arg value="-e" />
          <arg value="${integration.server}" />
          <arg value="-a" />
-         <arg value="${bar.name}" />
+         <arg value="${bar.dev}" />
 		 <arg value="-w" />
          <arg value="600" />
       </exec>
-      <echo message="Completed deploying Broker Archive file - ${bar.name} " />
+      <echo message="Completed deploying Broker Archive file - ${bar.dev} " />
 	  <echo message="." />
 	  <exec dir="${iib.runtime.dir}"  executable="cmd" failonerror="true">
 		 <arg value="/c"/>
