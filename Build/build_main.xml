@@ -9,7 +9,7 @@
 	  <property name="path.properties" value="Build\Override" />
       <property name="iib.toolkit.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\tools" />
       <!--<property name="workspaces.dir" value="C:\Progra~2\Jenkins\IIB-App3-Ant-Promotion" />-->
-	  <property name="workspaces.dir" value="${JENKINS_HOME\IIB-App3-Ant-Promotion}" />
+	  <property name="workspaces.dir" value="${JENKINS_HOME}\IIB-App3-Ant-Promotion}" />
       <property name="iib.runtime.dir" value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
       <property name="iib.path" value="C:\Progra~1\IBM\IIB\10.0.0.12" />
       <property name="iib.mqsiprofile" value="${iib.path}\server\bin\mqsiprofile.cmd" />
