@@ -16,7 +16,7 @@
 
   <target name="bootstrap" depends="bootstrap_init">
     
-    <property name="init.env" value="call ${iib.mqsiprofile}" />
+    <property name="init.env" value="${iib.mqsiprofile}" />
 
 	<exec dir="${iib.runtime.dir}"  executable="cmd" failonerror="true">
 		<arg value="/c"/>
