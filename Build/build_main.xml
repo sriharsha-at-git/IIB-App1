@@ -44,7 +44,7 @@
       <echo message="Building Broker Archive file: LOCAL-${bar.local} " />
       <exec executable="${iib.toolkit.dir}\mqsicreatebar" spawn="false">
          <arg value="-data" />
-         <arg value="${workspaces.dir}" />
+         <arg value="." />
          <arg value="-b" />
          <arg value="${bar.local}" />
          <arg value="-a" />
