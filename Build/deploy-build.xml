@@ -16,7 +16,8 @@
 	  <property name="appln.name" 		value="HTTP_JSON_WS_APP" />
       <property name="bar.dev" 			value="$JENKINS_HOME\job\$JOB_NAME\builds\$BUILD_NUMBER\archive\Build\Bars\DEV-${appln.name}.bar" />
 
-      
+      <echo message="${bar.dev}" />
+	   
       <property name="dev.node" 	value="D.BRWIN.01" />
       <property name="dev.server" 	value="WebServices" />
       <property name="dev.host" 	value="172.31.0.159" />
