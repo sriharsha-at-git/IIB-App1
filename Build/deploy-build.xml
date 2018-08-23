@@ -13,22 +13,24 @@
       <property name="iib.runtime.dir" 	value="C:\Progra~1\IBM\IIB\10.0.0.12\server\bin" />
       <property name="iib.path" 		value="C:\Progra~1\IBM\IIB\10.0.0.12" />
       <property name="iib.mqsiprofile" 	value="${iib.path}\server\bin\mqsiprofile.cmd" />
-      <property name="appln.name" 		value="HTTP_JSON_WS_APP" />
-	  <property name="bar.local" 		value="${path.bars}\LOCAL-${appln.name}.bar" />
-      <property name="bar.dev" 			value="${path.bars}\DEV-${appln.name}.bar" />
-	  <property name="bar.test" 		value="${path.bars}\TEST-${appln.name}.bar" />
-      <property name="bar.acpt" 		value="${path.bars}\ACPT-${appln.name}.bar" />
-      <property name="bar.prod" 		value="${path.bars}\PROD-${appln.name}.bar" />
-      
-      <property name="properties.dev" 	value="${path.properties}\DEV.properties" />
-	  <property name="properties.test" 	value="${path.properties}\TEST.properties" />
-      <property name="properties.acpt" 	value="${path.properties}\ACPT.properties" />
-      <property name="properties.prod" 	value="${path.properties}\PROD.properties" />
+	  <property name="appln.name" 		value="HTTP_JSON_WS_APP" />
+      <property name="bar.dev" 			value="$JENKINS_HOME\job\$JOB_NAME\builds\$BUILD_NUMBER\archive\Build\Bars\DEV-${appln.name}.bar" />
+
       
       <property name="dev.node" 	value="D.BRWIN.01" />
       <property name="dev.server" 	value="WebServices" />
       <property name="dev.host" 	value="172.31.0.159" />
       <property name="dev.port" 	value="4415" />
+	  
+	  
+	<!--
+		JENKINS_HOME=C:\Program Files (x86)\Jenkins
+		JOB_NAME=IIB-App3-Ant-Promotion
+		BUILD_NUMBER=39
+ 	    Target=C:\Program Files (x86)\Jenkins\jobs\IIB-App3-Ant-Promotion\builds\39\archive\Build\Bars
+	-->
+	  
+	  
 	  <antcall target="mqsideploybar" />
    </target>
    
