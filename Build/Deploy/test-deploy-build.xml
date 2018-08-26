@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="run">
+    <target name="run" description="Intialize environment">
+        <tstamp />
+        <property environment="env" />
+        
+		<property name="iib.runtime.dir" value="${env.MQSI_RUNTIME}" />
+        <property name="iib.mqsiprofile" value="${env.MQSI_PROFILE}" />
+        <property name="appln.name" value="HTTP_JSON_WS_APP" />
+		
+        <property name="test.bar" value="${jobHome}\${jobName}\${buildArtifact}\TEST-${appln.name}.bar" />
+        <property name="test.server" value="WebServices" />
+		
+        <antcall target="mqsideploybar" />
+    </target>
+    <!--
+		Target to deploy the broker archive using mqsideploybar
+	-->
+    <target name="mqsideploybar">
+        <echo message="." />
+		<echo message="*******************************************************************" />
+        <echo message="************************ DEPLOY BAR FILE **************************" />
+		<echo message="*******************************************************************" />
+		<echo message="." />
+        <echo message="Connection details : ${env.TEST1_CONN} " />
+		<echo message="Deploying Broker Archive file: ${test.bar} " />
+        <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
+            <arg value="/c" />
+            <arg value="mqsideployscript.bat" />
+            <arg value="-n" />
+            <arg value="${env.TEST1_CONN}" />
+            <arg value="-e" />
+            <arg value="${test.server}" />
+            <arg value="-a" />
+            <arg value="${test.bar}" />
+            <arg value="-w" />
+            <arg value="600" />
+        </exec>
+        <echo message="Completed deploying Broker Archive file - ${test.bar} " />
+		<echo message="." />
+		<echo message="Connection details : ${env.TEST2_CONN} " />
+		<echo message="Deploying Broker Archive file: ${test.bar} " />
+        <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
+            <arg value="/c" />
+            <arg value="mqsideployscript.bat" />
+            <arg value="-n" />
+            <arg value="${env.TEST2_CONN}" />
+            <arg value="-e" />
+            <arg value="${test.server}" />
+            <arg value="-a" />
+            <arg value="${test.bar}" />
+            <arg value="-w" />
+            <arg value="600" />
+        </exec>
+        <echo message="Completed deploying Broker Archive file - ${test.bar} " />
+		
+		
+    </target>
+</project>

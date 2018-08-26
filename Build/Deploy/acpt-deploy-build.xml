@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="run">
+    <target name="run" description="Intialize environment">
+        <tstamp />
+        <property environment="env" />
+        
+		<property name="iib.runtime.dir" value="${env.MQSI_RUNTIME}" />
+        <property name="iib.mqsiprofile" value="${env.MQSI_PROFILE}" />
+        <property name="appln.name" value="HTTP_JSON_WS_APP" />
+		
+        <property name="acpt.bar" value="${jobHome}\${jobName}\${buildArtifact}\ACPT-${appln.name}.bar" />
+        <property name="acpt.server" value="WebServices" />
+		
+        <antcall target="mqsideploybar" />
+    </target>
+    <!--
+		Target to deploy the broker archive using mqsideploybar
+	-->
+    <target name="mqsideploybar">
+        <echo message="." />
+		<echo message="*******************************************************************" />
+        <echo message="************************ DEPLOY BAR FILE **************************" />
+		<echo message="*******************************************************************" />
+		<echo message="." />
+        <echo message="Connection details : ${env.ACPT1_CONN} " />
+		<echo message="Deploying Broker Archive file: ${acpt.bar} " />
+        <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
+            <arg value="/c" />
+            <arg value="mqsideployscript.bat" />
+            <arg value="-n" />
+            <arg value="${env.ACPT1_CONN}" />
+            <arg value="-e" />
+            <arg value="${acpt.server}" />
+            <arg value="-a" />
+            <arg value="${acpt.bar}" />
+            <arg value="-w" />
+            <arg value="600" />
+        </exec>
+        <echo message="Completed deploying Broker Archive file - ${acpt.bar} " />
+		<echo message="." />
+		<echo message="Connection details : ${env.ACPT2_CONN} " />
+		<echo message="Deploying Broker Archive file: ${acpt.bar} " />
+        <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
+            <arg value="/c" />
+            <arg value="mqsideployscript.bat" />
+            <arg value="-n" />
+            <arg value="${env.ACPT2_CONN}" />
+            <arg value="-e" />
+            <arg value="${acpt.server}" />
+            <arg value="-a" />
+            <arg value="${acpt.bar}" />
+            <arg value="-w" />
+            <arg value="600" />
+        </exec>
+        <echo message="Completed deploying Broker Archive file - ${acpt.bar} " />
+		
+		
+    </target>
+</project>
