@@ -25,7 +25,7 @@
 		<echo message="*******************************************************************" />
         <echo message="Downloading Broker Archive file: ${acpt.bar} " />
 		<mkdir dir="${buildArtifacts}" />
-		<get src="${art.acpt.bar}" dest="${acpt.bar}"/>
+		<get src="${art.acpt.bar}" dest="${acpt.bar}" username="${env.ART_USR}" password="${env.ART_PWD}"/>
         <echo message="Completed downloading Broker Archive file - ${acpt.bar} " />
         <echo message="." />
 		
