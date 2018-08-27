@@ -5,12 +5,9 @@
         <property environment="env" />
         
 		<property name="iib.runtime.dir" value="${env.MQSI_RUNTIME}" />
-        <property name="iib.mqsiprofile" value="${env.MQSI_PROFILE}" />
         <property name="appln.name" value="HTTP_JSON_WS_APP" />
-		
-        <property name="dev.bar" value="${jobHome}\${jobName}\${buildArtifact}\DEV-${appln.name}.bar" />
-		
-        <property name="dev.node" value="D.BRWIN.01" />
+		<property name="dev.bar" value="${jobHome}\${jobName}\${buildArtifact}\DEV-${appln.name}.bar" />
+		<property name="dev.node" value="D.BRWIN.01" />
         <property name="dev.server" value="WebServices" />
 		
         <antcall target="mqsideploybar" />
@@ -38,8 +35,7 @@
             <arg value="600" />
         </exec>
         <echo message="Completed deploying Broker Archive file - ${dev.bar} " />
-        
-		<echo message="." />
+        <echo message="." />
 		
     </target>
 </project>

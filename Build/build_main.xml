@@ -3,19 +3,16 @@
     <description>IIB Continuous Integration Demo (main script)</description>
     
 	<target name="init">
-		<tstamp />
 		<echo message="." />
 		<echo message="*******************************************************************" />
         <echo message="************************ INITIALIZING ENV *************************" />
 		<echo message="*******************************************************************" />
-        <tstamp />
         <property environment="env" />
         <property name="path.build" value="Build" />
         <property name="path.bars" value="Build\Bars" />
         <property name="path.properties" value="Build\Override" />
         <property name="iib.toolkit.dir" value="${env.MQSI_TOOLS}" />
         <property name="iib.runtime.dir" value="${env.MQSI_RUNTIME}" />
-        <property name="iib.mqsiprofile" value="${env.MQSI_PROFILE}" />
         <property name="appln.name" value="HTTP_JSON_WS_APP" />
         <property name="bar.local" value="${path.bars}\LOCAL-${appln.name}.bar" />
         <property name="bar.dev" value="${path.bars}\DEV-${appln.name}.bar" />
@@ -26,10 +23,7 @@
         <property name="properties.test" value="${path.properties}\TEST.properties" />
         <property name="properties.acpt" value="${path.properties}\ACPT.properties" />
         <property name="properties.prod" value="${path.properties}\PROD.properties" />
-        <property name="dev.node" value="D.BRWIN.01" />
-        <property name="dev.server" value="WebServices" />
-        <property name="dev.host" value="172.31.0.159" />
-        <property name="dev.port" value="4415" />
+
     </target>
     
 	<target name="dev" depends="init">
@@ -93,7 +87,7 @@
         <echo message="*********************** OVERRIDE PROPERTIES ***********************" />
 		<echo message="*******************************************************************" />
         <echo message="Overriding Broker Archive properties: ${bar.dev} " />
-        <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
+        <exec executable="mqsiapplybaroverride.bat" spawn="false">
             <arg value="-b" />
             <arg value="${bar.dev}" />
             <arg value="-p" />
@@ -108,7 +102,7 @@
         <echo message="*********************** OVERRIDE PROPERTIES ***********************" />
 		<echo message="*******************************************************************" />
         <echo message="Overriding Broker Archive properties: ${bar.test} " />
-        <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
+        <exec executable="mqsiapplybaroverride.bat" spawn="false">
             <arg value="-b" />
             <arg value="${bar.test}" />
             <arg value="-p" />
@@ -138,7 +132,7 @@
         <echo message="*********************** OVERRIDE PROPERTIES ***********************" />
 		<echo message="*******************************************************************" />
         <echo message="Overriding Broker Archive properties: ${bar.prod} " />
-        <exec executable="${iib.runtime.dir}\mqsiapplybaroverride.bat" spawn="false">
+        <exec executable="mqsiapplybaroverride.bat" spawn="false">
             <arg value="-b" />
             <arg value="${bar.prod}" />
             <arg value="-p" />
