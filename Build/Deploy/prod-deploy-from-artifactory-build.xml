@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="run">
+    <target name="run" description="Intialize environment">
+        <tstamp />
+        <property environment="env" />
+        
+		<property name="iib.runtime.dir" value="${env.MQSI_RUNTIME}" />
+        <property name="appln.name" value="HTTP_JSON_WS_APP" />
+		<property name="buildArtifacts" value="${jobHome}/${jobName}/${buildArtifact}" />
+		<property name="art.prod.bar" value="${artIibrepo}/${jobName}/${buildID}/PROD-${appln.name}.bar" />
+		<property name="prod.bar" value="${buildArtifacts}/PROD-${appln.name}.bar" />
+		<property name="prod.server" value="WebServices" />
+		
+		<antcall target="getbar" />
+        <antcall target="deployTo01" />
+		<antcall target="deployTo02" />
+    </target>
+	<!--
+		Target to download bar file from artifactory
+	-->
+	<target name="getbar">
+        <echo message="." />
+		<echo message="*******************************************************************" />
+        <echo message="*********************** DOWNLOAD BAR FILE *************************" />
+		<echo message="*******************************************************************" />
+        <echo message="Downloading Broker Archive file: ${prod.bar} " />
+		<mkdir dir="${buildArtifacts}" />
+		<get src="${art.prod.bar}" dest="${prod.bar}"/>
+        <echo message="Completed downloading Broker Archive file - ${prod.bar} " />
+        <echo message="." />
+		
+    </target>
+    <!--
+		Target to deploy the broker archive using mqsideploybar
+	-->
+    <target name="deployTo01">
+        <echo message="." />
+		<echo message="*******************************************************************" />
+        <echo message="************************ DEPLOY BAR FILE **************************" />
+		<echo message="*******************************************************************" />
+        <echo message="Deploying Broker Archive file: ${prod.bar} " />
+
+        <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
+            <arg value="/c" />
+            <arg value="mqsideployscript.bat" />
+            <arg value="-n" />
+            <arg value="${env.PROD1_CONN}" />
+            <arg value="-e" />
+            <arg value="${prod.server}" />
+            <arg value="-a" />
+            <arg value="${prod.bar}" />
+            <arg value="-w" />
+            <arg value="600" />
+        </exec>
+        <echo message="Completed deploying Broker Archive file - ${prod.bar} " />
+        <echo message="." />
+		
+    </target>
+	 <target name="deployTo02">
+        <echo message="." />
+		<echo message="*******************************************************************" />
+        <echo message="************************ DEPLOY BAR FILE **************************" />
+		<echo message="*******************************************************************" />
+        <echo message="Deploying Broker Archive file: ${prod.bar} " />
+
+        <exec dir="${iib.runtime.dir}" executable="cmd" failonerror="true">
+            <arg value="/c" />
+            <arg value="mqsideployscript.bat" />
+            <arg value="-n" />
+            <arg value="${env.PROD2_CONN}" />
+            <arg value="-e" />
+            <arg value="${prod.server}" />
+            <arg value="-a" />
+            <arg value="${prod.bar}" />
+            <arg value="-w" />
+            <arg value="600" />
+        </exec>
+        <echo message="Completed deploying Broker Archive file - ${prod.bar} " />
+        <echo message="." />
+		
+    </target>
+</project>
