@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         // FOO will be available in entire pipeline
-        MQSI_RUNTIME = "C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/"
-        MQSI_TOOLS = "C:/Progra~1/IBM/IIB/10.0.0.12/tools/"
+        MQSI_RUNTIME = "${env.MQSI_RUNTIME}"
+        MQSI_TOOLS = "${env.MQSI_TOOLS}"
     }
 
         stages {
@@ -14,8 +14,8 @@ pipeline {
                         git 'https://github.com/sriharsha-at-git/IIB-App1.git'
                         bat 'echo "hi"'
                         bat 'pause 5'
-                        bat 'call C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsiprofile.cmd'
-                        bat 'C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsiservice'
+                        bat 'call $MQSI_RUNTIME/mqsiprofile.cmd'
+                        bat '$MQSI_RUNTIME/mqsilist'
                         bat 'echo "done" '
                     }
             }
