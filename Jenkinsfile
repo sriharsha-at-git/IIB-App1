@@ -14,12 +14,6 @@ pipeline {
                         bat 'download completed'
                     }
                 }
-                steps {
-                    dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
-                        bat 'call C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsiprofile.cmd'
-                        bat 'C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsilist'
-                    }
-                }
             }
             stage("Initialize") {
                 steps {
