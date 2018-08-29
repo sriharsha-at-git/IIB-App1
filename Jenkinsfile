@@ -12,12 +12,11 @@ pipeline {
                 steps {
                     dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
                         git 'https://github.com/sriharsha-at-git/IIB-App1.git'
-                        bat returnStdout: true, script: '''
-                        echo "hi"
-                        pause 5
-                        call $MQSI_RUNTIME/mqsiprofile.cmd
-                        $MQSI_RUNTIME/mqsiservice
-                        echo "done" '''
+                        bat 'echo "hi"'
+                        bat 'pause 5'
+                        bat 'call $MQSI_RUNTIME/mqsiprofile.cmd'
+                        bat '$MQSI_RUNTIME/mqsiservice'
+                        bat 'echo "done" '
                     }
             }
         }
