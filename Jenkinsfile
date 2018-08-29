@@ -14,8 +14,8 @@ pipeline {
                         git 'https://github.com/sriharsha-at-git/IIB-App1.git'
                         bat 'echo "hi"'
                         bat 'pause 5'
-                        bat 'call $MQSI_RUNTIME/mqsiprofile.cmd'
-                        bat '$MQSI_RUNTIME/mqsiservice'
+                        bat 'call C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsiprofile.cmd'
+                        bat 'C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsiservice'
                         bat 'echo "done" '
                     }
             }
