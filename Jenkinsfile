@@ -9,9 +9,9 @@ pipeline {
             stage("GetSource") {
                 steps {
                     dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
-                        bat 'Downloading src"'
+                        echo 'Downloading src"'
                         git 'https://github.com/sriharsha-at-git/IIB-App1.git'
-                        bat 'download completed'
+                        echo 'download completed'
                     }
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
             stage("Compile") {
                 steps {
                     dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
-                       
+                       echo 'Compiling Apps...'
                         bat 'C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsicreatebar -data . -b ./DEV-TEST.bar -a HTTP_JSON_WS_APP'
                     }
                 }
