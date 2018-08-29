@@ -10,7 +10,7 @@ pipeline {
         stages {
             stage("GetSource") {
                 steps {
-                    dir('C:\\Program Files (x86)\\Jenkins\\workspace\\SourceCode') {
+                    dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
                         git 'https://github.com/sriharsha-at-git/IIB-App1.git'
                         bat 'cd IIB-App1' 
                         bat returnStdout: true, script: '''
