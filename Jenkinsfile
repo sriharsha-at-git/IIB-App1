@@ -4,7 +4,7 @@ pipeline {
     environment {
         // FOO will be available in entire pipeline
         MQSI_RUNTIME = "C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/"
-        MQSI_TOOLS = "C:/Progra~1/IBM\IIB/10.0.0.12/tools/"
+        MQSI_TOOLS = "C:/Progra~1/IBM/IIB/10.0.0.12/tools/"
     }
 
         stages {
