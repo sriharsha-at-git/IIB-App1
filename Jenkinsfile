@@ -7,14 +7,14 @@ pipeline {
     }
         stages {
             stage("GetSource") {
-                step {
+                steps {
                     dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
                         bat 'Downloading src"'
                         git 'https://github.com/sriharsha-at-git/IIB-App1.git'
                         bat 'download completed'
                     }
                 }
-                step {
+                steps {
                     dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
                         bat 'call C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsiprofile.cmd'
                         bat 'C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsilist'
@@ -22,7 +22,7 @@ pipeline {
                 }
             }
             stage("Initialize") {
-                step {
+                steps {
                     dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
                         bat 'call C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsiprofile.cmd'
                         bat 'C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsilist'
@@ -30,7 +30,7 @@ pipeline {
                 }
             }
             stage("Compile") {
-                step {
+                steps {
                     dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
                        
                         bat 'C:/Progra~1/IBM/IIB/10.0.0.12/server/bin/mqsicreatebar -data . -b ./DEV-TEST.bar -a HTTP_JSON_WS_APP'
