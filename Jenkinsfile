@@ -12,7 +12,6 @@ pipeline {
                 steps {
                     dir('C:/Progra~2/Jenkins/workspace/SourceCode') {
                         git 'https://github.com/sriharsha-at-git/IIB-App1.git'
-                        bat 'cd IIB-App1' 
                         bat returnStdout: true, script: '''
                         echo "hi"
                         pause 5
