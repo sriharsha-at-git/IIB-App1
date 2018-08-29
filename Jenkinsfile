@@ -1,21 +1,26 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    // FOO will be available in entire pipeline
-    MQSI_RUNTIME = "C:\Progra~1\IBM\IIB\10.0.0.12\server\bin"
-	MQSI_TOOLS = "C:\Progra~1\IBM\IIB\10.0.0.12\server\bin"
-  }
-
-  stages {
-    stage("local") {
-      environment {
-        var = "STAGE"
-      }
-      steps {
-        bat 'echo iibruntime = "$MQSI_RUNTIME"'
-		bat 'echo iibtoolkit = "$MQSI_TOOLS"'
-      }
+    environment {
+        // FOO will be available in entire pipeline
+        MQSI_RUNTIME = "C:\Progra~1\IBM\IIB\10.0.0.12\server\bin"
+        MQSI_TOOLS = "C:\Progra~1\IBM\IIB\10.0.0.12\server\bin"
     }
-  }
+
+        stages {
+            stage("GetSource") {
+                steps {
+                    dir('C:\\Program Files (x86)\\Jenkins\\workspace\\SourceCode') {
+                        git 'https://github.com/sriharsha-at-git/IIB-App1.git'
+                        bat 'cd IIB-App1' 
+                        bat returnStdout: true, script: '''
+                        echo "hi"
+                        pause 5
+                        call $MQSI_RUNTIME\mqsiprofile.cmd
+                        $MQSI_RUNTIME\mqsiservice
+                        echo "done" '''
+                    }
+            }
+        }
+    }
 }
