@@ -1,12 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        // FOO will be available in entire pipeline
-        MQSI_RUNTIME = "${env.MQSI_RUNTIME}"
-        MQSI_TOOLS = "${env.MQSI_TOOLS}"
-    }
-
         stages {
             stage("GetSource") {
                 steps {
